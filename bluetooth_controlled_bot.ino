@@ -1,10 +1,10 @@
 
 #include<Servo.h>
-
+// initializing the code by mentioning the pin number and connections
 Servo Turn_Servo;
-const int m1_1 = 4;    //Left
+const int m1_1 = 4;    //Left wheel
 const int m1_2 = 2;    
-const int m2_1 = 5;    //Right
+const int m2_1 = 5;    //Right wheel
 const int m2_2 = 7;    
 const int en_1 = 3;     //Enable Left 
 const int en_2 = 6;       
@@ -16,7 +16,7 @@ const int PinServo = 9;
 
 char Trigger;
 
-void StopMotor()
+void StopMotor() // code to stop moving the motor
 {
   digitalWrite(m1_1,LOW);
   digitalWrite(m1_2,LOW);
@@ -24,7 +24,7 @@ void StopMotor()
   digitalWrite(m2_2,LOW);
 }
 
-void Left(int PwmC = 100){
+void Left(int PwmC = 100){ // to turn left by making left motor LOW and right motor HIGH
   digitalWrite(m1_1,HIGH);
   digitalWrite(m1_2,LOW);
   digitalWrite(m2_1,LOW);
@@ -33,7 +33,7 @@ void Left(int PwmC = 100){
   analogWrite(en_2,PwmC);
 }
 
-void Right(int PwmC = 100){
+void Right(int PwmC = 100){ // to turn right by making right motor LOW and left motor HIGH
   digitalWrite(m1_1,LOW);
   digitalWrite(m1_2,HIGH);
   digitalWrite(m2_1,HIGH);
@@ -42,7 +42,7 @@ void Right(int PwmC = 100){
   analogWrite(en_2,PwmC);
 }
 
-void Forward(int PwmC = 100){
+void Forward(int PwmC = 100){ // function to move forward
   digitalWrite(m1_1,HIGH);
   digitalWrite(m1_2,LOW);
   digitalWrite(m2_1,HIGH);
@@ -52,7 +52,7 @@ void Forward(int PwmC = 100){
   //Serial.print(dist1);
 }
 
-void Reverse(int PwmC = 100){
+void Reverse(int PwmC = 100){ // fucntion to move reverse
   digitalWrite(m1_1,LOW);
   digitalWrite(m1_2,HIGH);
   digitalWrite(m2_1,LOW);
@@ -62,7 +62,7 @@ void Reverse(int PwmC = 100){
   //Serial.print(dist1);
 }
 
-void TServo(){
+void TServo(){ // function to turn the servo motor by 90 degrees and a delay is given after every 90 degrees.
   int pos = 0;
   Turn_Servo.write(90);
   delay(300);
@@ -73,7 +73,7 @@ void TServo(){
 }
 
 
-void setup() {
+void setup() {// define the OUTPUT and INPUT to the arduino by setting the motors as OUTPUT and IR as INPUT.
   Turn_Servo.attach(PinServo);
   Serial.begin(9600);
   pinMode(m1_1,OUTPUT);
@@ -87,13 +87,13 @@ void setup() {
 
 
 void loop() {
-  if(Serial.available() > 0)      // Send data only when you receive data:
+  if(Serial.available() > 0)     // Send data only when you receive data:
      {
         Trigger = Serial.read();      
         Serial.println(Trigger);      
      }
      
-  if(!digitalRead(IR)) // Black Considered as 0 
+  if(!digitalRead(IR)) // Black Considered as 0 and white as 1. Servo should turn 90 degrees when it reads a black line.
   {
     Serial.println("IR");
     TServo();
